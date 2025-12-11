@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Driver {
 
@@ -21,5 +22,13 @@ public class Driver {
 			}
 			System.out.println();
 		}
+		
+	}
+	public static int random() {
+		Random randomNum = new Random();
+		
+		int num = randomNum.nextInt(3);
+		return num;
 	}
 }
+
