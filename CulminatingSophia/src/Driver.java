@@ -12,6 +12,7 @@ public class Driver {
 		display(grid);
 		
 	}	
+	
 	public static void display(int[][] arr) {
 		int numRows = arr.length;
 		int numColumns = arr[0].length;
@@ -24,6 +25,7 @@ public class Driver {
 		}
 		
 	}
+	
 	public static int random() {
 		Random randomNum = new Random();
 		
