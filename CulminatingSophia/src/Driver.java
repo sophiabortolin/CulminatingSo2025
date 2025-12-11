@@ -22,6 +22,7 @@ public class Driver {
 				System.out.print("0 ");
 			}
 			System.out.println();
+			
 		}
 		
 	}
