@@ -1,13 +1,43 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Driver {
 
 	public static void main(String[] args) {
-		int width = 4;
-		int height = 4;
+		
+		Scanner in = new Scanner(System.in);
+		
+		System.out.print("Grid size (Enter a value between 4 and 8): ");
+		
+		int width = in.nextInt();
+		int height = width;
+		
+		while (width > 8 || width < 4) {
+			System.out.print("Enter a value between 4 and 8. Try again: ");
+			width = in.nextInt();
+			height = width;
+		}
+		
+		System.out.print("How many treasures do you want to try and find? ");
+		int numTreasures = in.nextInt();
+		// limit of treasures
+		
+		System.out.println();
+		
 		
 		int[][] grid = new int[width][height];
+		
+		int treasureX = 0;
+		int treasureY = 0;
+		
+		for (int i = 0; i < numTreasures; i++) {
+			
+			treasureX = random(width);
+			treasureY = random(width);
+			
+			grid[treasureX][treasureY] = 1;
+		}
 		
 		display(grid);
 		
@@ -19,7 +49,7 @@ public class Driver {
 		
 		for (int r = 0; r < numRows; r++) {
 			for (int c =0; c <numColumns; c++) {
-				System.out.print("0 ");
+				System.out.print(arr[r][c] + " ");
 			}
 			System.out.println();
 			
@@ -27,10 +57,11 @@ public class Driver {
 		
 	}
 	
-	public static int random() {
+	public static int random(int w) {
+		
 		Random randomNum = new Random();
 		
-		int num = randomNum.nextInt(3);
+		int num = randomNum.nextInt(w);
 		return num;
 	}
 }
