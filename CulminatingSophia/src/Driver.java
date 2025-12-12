@@ -33,10 +33,16 @@ public class Driver {
 		
 		for (int i = 0; i < numTreasures; i++) {
 			
+			
 			treasureX = random(width);
 			treasureY = random(width);
 			
+			while(grid[treasureX][treasureY] == 1) { // make sure there is not already a treasure in that location
+				treasureX = random(width);
+			}
+
 			grid[treasureX][treasureY] = 1;
+			
 		}
 		
 		display(grid);
