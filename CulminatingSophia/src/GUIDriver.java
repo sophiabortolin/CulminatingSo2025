@@ -2,6 +2,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class GUIDriver extends Application {
@@ -10,12 +12,23 @@ public class GUIDriver extends Application {
 	public void start(Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 		VBox root = new VBox(10);
-		Label text = new Label("HELLO");
-		root.getChildren().add(text);
+
+		Rectangle bg = new Rectangle();
 		
-		Scene scene = new Scene(root, 600, 600);
+		bg.setX(50.0);  
+        bg.setY(50.0);    
+        bg.setWidth(200.0); 
+        bg.setHeight(100.0);
+        bg.setFill(Color.RED);
+        
+        root.getChildren().add(bg);		
+		
+		Scene scene = new Scene(root, 600, 600, Color.WHITE);
+		
 		stage.setScene(scene);
+		
 		stage.show();
+		
 		
 	}
 

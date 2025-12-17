@@ -23,6 +23,11 @@ public class Driver {
 		int numTreasures = in.nextInt();
 		// limit of treasures
 		
+		while(numTreasures > 5) {
+			System.out.print("Enter a value less than 6: ");
+			numTreasures = in.nextInt();
+		}
+		
 		System.out.println();
 		
 		
@@ -71,4 +76,3 @@ public class Driver {
 		return num;
 	}
 }
-
