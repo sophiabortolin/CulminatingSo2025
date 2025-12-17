@@ -15,8 +15,8 @@ public class GUIDriver extends Application {
 
 		Rectangle bg = new Rectangle();
 		
-		bg.setX(50.0);  
-        bg.setY(50.0);    
+		bg.setX(150.0);  
+        bg.setY(150.0);    
         bg.setWidth(200.0); 
         bg.setHeight(100.0);
         bg.setFill(Color.RED);
