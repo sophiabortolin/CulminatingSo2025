@@ -1,109 +1,144 @@
-import javafx.application.Application;
-import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
-import javafx.geometry.Pos;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.FontWeight;
 
-public class GUIDriver extends Application {
+
+public class GUIDriver {
 	
-	private boolean subButtonClicked = false;
-	private Label menuLabel;
-	private Label sizeLabel;
-	private TextField sizeField;
-	private Label treasureLabel;
-	private TextField treasureField;
-	private Button subButton;
-	private Rectangle myRectangle;
-	@Override
+	private GridPane gameGrid;
+	private TreasureGrid treasureGrid;
+	private int treasuresFound = 0;
+	private int totalTreasures;
+	private int bombsFound = 0;
+	private int totalBombs = 4;
+	private Label livesLabel;
+	private Stage stage;
+
 	
-	public void start(Stage stage) throws Exception {
+	public void startGame(Stage s, int size, int treasureAmount){
 		// TODO Auto-generated method stub		
 		
-		GridPane gridPane = new GridPane();
-		gridPane.setHgap(10); // Horizontal gap
-		gridPane.setVgap(10); // Vertical gap
-		gridPane.setPadding(new Insets(10, 10, 10, 10)); 
+		stage = s;
+		totalTreasures = treasureAmount;
+		treasureGrid = new TreasureGrid(size, totalTreasures);
 		
-		Color backgroundColor = Color.LIGHTBLUE;
-		BackgroundFill backgroundFill = newBackgroundFill(backgroundColor, CornerRadii.EMPTY,Insets.EMPTY);
-		Background background = new Background(backgroundFill);
-		gridPane.setBackground(background);
-		
-		menuLabel = new Label("Menu");
-		sizeLabel = new Label("Size of Grid:");
-		sizeField = new TextField();	
-		treasureLabel = new Label("Amount of treasures:");
-		treasureField = new TextField();	
-		subButton = new Button("Submit");
-		
-		myRectangle  = new Rectangle(100,50,Color.WHITE);
-		gridPane.add(myRectangle,0,20,2,1);
-		
-		gridPane.add(menuLabel,1,3);
-		gridPane.add(sizeLabel, 0, 9); 
-		gridPane.add(sizeField, 1, 9); 
-	
+        StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: lightblue;");
 
-		gridPane.add(treasureLabel, 0, 15); 
-		gridPane.add(treasureField, 1, 15); 
-		gridPane.add(subButton, 1, 16); 
-	
-		menuLabel.setFont(new Font("Ariel",50));
-		treasureLabel.setFont(new Font("Ariel",15));
-		sizeLabel.setFont(new Font("Ariel", 15));
+        VBox layout = new VBox(15);
+        layout.setAlignment(Pos.CENTER);
+
+        createGameGrid(size);
+
+        livesLabel = new Label("♥ ♥ ♥ ♥");
+        livesLabel.setStyle("-fx-font-size: 26px; -fx-text-fill: red;");
+
+        layout.getChildren().addAll(gameGrid, livesLabel);
+        root.getChildren().add(layout);
+
+        stage.setScene(new Scene(root, 600, 600));
 		
-		Scene scene = new Scene(gridPane, 600, 600); 
-		stage.setScene(scene);
-		stage.setTitle("GridPane Example");
-		stage.show();
-		
+	}
+
+	 
+	 private void createGameGrid(int size) {
+		 gameGrid = new GridPane();
+		 gameGrid.setHgap(10);
+		 gameGrid.setVgap(10);
+		 gameGrid.setAlignment(Pos.CENTER); // center
+
+		    for (int row = 0; row < size; row++) {
+		        for (int col = 0; col < size; col++) {
+		            Button btn = new Button();
+		            btn.setPrefSize(60, 60);
+
+		            int r = row;
+		            int c = col;
+
+		            btn.setOnAction(e -> {
+		            	if (treasureGrid.hasTreasure(r, c)) {
+		                    btn.setText("💰");
+		                    btn.setStyle("-fx-background-color: yellow;");
+		                    treasuresFound++;
+		                    
+		                    if (treasuresFound == totalTreasures) {
+		                        showWinScreen();
+		                    }
+		                } else if (treasureGrid.hasBomb(r,c)){
+		                	btn.setText("💣");
+		                	btn.setStyle("-fx-background-color: black;");
+		                	bombsFound++;
+		                	
+		                	showLives(bombsFound);
+		     
+		                	
+		                	if (bombsFound == totalBombs) {
+		                		showLoseScreen();
+		                	}
+		                }
+		             
+		                else {
+		                    btn.setText("🚫");
+		                    btn.setStyle("-fx-background-color: lightgray;");
+		                }
+
+		                btn.setDisable(true);
+		            });
+
+		            gameGrid.add(btn, col, row);
+		        }
+		    }
+	 }
+	 
+	 private void showWinScreen() {
+		    VBox winLayout = new VBox(20);
+		    winLayout.setAlignment(Pos.CENTER);
+		    winLayout.setStyle("-fx-background-color: lightgreen;");
+
+		    Label winLabel = new Label("🎉 YOU WIN! 🎉");
+		    winLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+		    winLabel.setTextFill(Color.DARKGREEN);
+
+		    winLayout.getChildren().add(winLabel);
+
+		    stage.setScene( new Scene(winLayout, 600, 600));
+
+		}
+	 
+	 private void showLoseScreen() {
+		 VBox loseLayout = new VBox(20);
+		 loseLayout.setAlignment(Pos.CENTER);
+		 loseLayout.setStyle("-fx-background-color: pink;");
+
+		    Label loseLabel = new Label("❌ YOU LOSE! ❌");
+		    loseLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+		    loseLabel.setTextFill(Color.DARKRED);
+
+		    loseLayout.getChildren().add(loseLabel);
+
+		    stage.setScene(new Scene(loseLayout, 600, 600));
+		   
+	 }
+	 
+	 private void showLives(int numBombs) {
 		 
-		 subButton.setOnAction(e -> {
-	            try {
-	             	subButtonClicked = true;
-		            checkAndHideElements();
-
-	            } catch (NumberFormatException ex) {
-	               
-	                System.err.println("Invalid number format for treasures amount.");
-	            }
-	        });
-		
-		
-	}
-	 private BackgroundFill newBackgroundFill(Color backgroundColor, CornerRadii empty, Insets empty2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	 private void checkAndHideElements() {
-	      if (subButtonClicked) {
-	          menuLabel.setVisible(false);
-	          sizeLabel.setVisible(false);
-	          sizeField.setVisible(false);
-	          treasureLabel.setVisible(false);
-	          treasureField.setVisible(false);
-	          subButton.setVisible(false);
-	          myRectangle.setVisible(false);
-	        }
-	    }
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		launch(args);
-
-	}
+		 if (numBombs == 1) {
+			 livesLabel.setText("♥️ ♥ ♥ ♡");
+		 } else if (numBombs == 2) {
+			 livesLabel.setText("♥ ♥ ♡ ♡");
+		 } else if (numBombs == 3) {
+			 livesLabel.setText("♥ ♡ ♡ ♡");
+		 }
+		 
+	 }
 
 }
