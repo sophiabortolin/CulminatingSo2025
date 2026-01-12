@@ -1,4 +1,3 @@
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,8 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Controls game for the Treasure Hunt by building the grid UI, responding to clicks, and showing win/lose
+ */
 
-public class GUIDriver {
+public class GameController {
 	
 	private GridPane gameGrid;
 	private TreasureGrid treasureGrid;
@@ -23,6 +25,12 @@ public class GUIDriver {
 	private Label livesLabel;
 	private Stage stage;
 
+	/**
+     * Starts a new game on the given stage
+     * @param stage the stage to render into
+     * @param size grid size (X by X)
+     * @param treasureAmount number of treasures to place
+     */
 	
 	public void startGame(Stage s, int size, int treasureAmount){
 		// TODO Auto-generated method stub		
@@ -49,6 +57,10 @@ public class GUIDriver {
 		
 	}
 
+	/**
+     * Creates the button grid for the game
+     * @param size grid size (X by X)
+     */
 	 
 	 private void createGameGrid(int size) {
 		 gameGrid = new GridPane();
@@ -99,6 +111,10 @@ public class GUIDriver {
 		    }
 	 }
 	 
+	 /**
+	 * Show win screen
+	 */
+	 
 	 private void showWinScreen() {
 		    VBox winLayout = new VBox(20);
 		    winLayout.setAlignment(Pos.CENTER);
@@ -113,6 +129,10 @@ public class GUIDriver {
 		    stage.setScene( new Scene(winLayout, 600, 600));
 
 		}
+	 
+	 /**
+	* Show lose screen
+	*/
 	 
 	 private void showLoseScreen() {
 		 VBox loseLayout = new VBox(20);
@@ -129,10 +149,15 @@ public class GUIDriver {
 		   
 	 }
 	 
+	 /**
+	     * Updates the lives label based on bombs found
+	     * @param bombsFound number of bombs found so far
+	     */
+	 
 	 private void showLives(int numBombs) {
 		 
 		 if (numBombs == 1) {
-			 livesLabel.setText("♥️ ♥ ♥ ♡");
+			 livesLabel.setText("♥ ♥ ♥ ♡");
 		 } else if (numBombs == 2) {
 			 livesLabel.setText("♥ ♥ ♡ ♡");
 		 } else if (numBombs == 3) {

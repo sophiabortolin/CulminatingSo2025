@@ -4,8 +4,13 @@ import javafx.stage.Stage;
 public class Game extends Application{
     @Override
     
+    /**
+     * Launches the main menu
+     * @param stage JavaFX stage
+     */
+    
     public void start(Stage stage) {
-        GameMenuFX menu = new GameMenuFX(stage);
+        Menu menu = new Menu(stage);
         menu.show();
     }
 

@@ -4,24 +4,47 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 
-public class GameMenuFX {
+/**
+ * Main menu for Treasure Hunt game
+ * Collects grid size and treasure then launches the game
+ */
+
+public class Menu {
+	
+	private static final int minGridSize = 4;
+	private static final int maxGridSize = 8;
 
     private Stage stage;
     private Pane root;
+    private Scene scene;
 
     private TextField sizeField;
     private TextField treasureField;
     private Label errorLabel;
+    
+    /**
+     * Creates a menu view attached to a stage
+     * @param stage the JavaFX stage to render into
+     */
 
-    public GameMenuFX(Stage s) {
+    public Menu(Stage s) {
         stage = s;
         root = new Pane();
+        scene = new Scene(root, 600, 600);
     }
+    
+    /**
+     * Shows the menu screen
+     */
     
     public void show() {
         showMenuScreen();
     }
 
+    
+    /**
+     * Code for the main menu
+     */
     public void showMenuScreen() {
         root.getChildren().clear();
 
@@ -78,7 +101,7 @@ public class GameMenuFX {
 
         root.getChildren().addAll(title, q1, q2, sizeField, treasureField, playButton, errorLabel, settingsButton, instructionsButton);
         
-        stage.setScene(new Scene(root, 600, 600));
+        stage.setScene(scene);
         stage.setTitle("Treasure Hunt");
         
         stage.centerOnScreen();
@@ -90,12 +113,17 @@ public class GameMenuFX {
         stage.show();
     }
 
+    
+    /**
+     * Validates user inputs and starts a new game if input is valid
+     */
+    
     private void handlePlay() {
         try {
             int size = Integer.parseInt(sizeField.getText());
             int treasures = Integer.parseInt(treasureField.getText());
 
-            if (size < 4 || size > 8) {
+            if (size < minGridSize || size > maxGridSize) {
                 errorLabel.setText("Grid size must be between 4 and 8");
                 return;
             }
@@ -105,7 +133,7 @@ public class GameMenuFX {
                 return;
             }
 
-            GUIDriver game = new GUIDriver();
+            GameController game = new GameController();
             game.startGame(stage, size, treasures);
 
         } catch (NumberFormatException ex) {
@@ -113,6 +141,10 @@ public class GameMenuFX {
         }
     }
 
+    /**
+     * Shows the settings screen
+     */
+    
     private void showSettingsScreen() {
         root.getChildren().clear();
 
@@ -143,6 +175,10 @@ public class GameMenuFX {
 
         root.getChildren().addAll(title, blueBg, greenBg, whiteBg, backButton);
     }
+    
+    /**
+     * Shows the instructions screen
+     */
 
     private void showInstructionsScreen() {
         root.getChildren().clear();

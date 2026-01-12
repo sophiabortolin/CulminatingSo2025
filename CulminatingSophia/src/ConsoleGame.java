@@ -2,7 +2,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Driver {
+/**
+ * Console game for creating and printing a random treasure grid.
+ */
+
+public class ConsoleGame {
+
 
 	public static void main(String[] args) {
 		
